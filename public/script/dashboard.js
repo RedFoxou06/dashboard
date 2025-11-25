@@ -33,27 +33,24 @@ function openProfileModal(targetName, isReadOnly) {
     const nameInput = document.getElementById('profileUsername');
     nameInput.value = targetName;
 
-    // Logique de lecture seule
+    nameInput.style.backgroundColor = "";
+    nameInput.style.cursor = "";
+
+    // Logique de lecture seule via attribut HTML (le CSS fera le reste)
     if (isReadOnly) {
         nameInput.setAttribute('readonly', true);
-        nameInput.style.backgroundColor = "#e9ecef"; // Gris
-        nameInput.style.cursor = "not-allowed";
         document.getElementById('profileHelp').style.display = "block";
     } else {
         nameInput.removeAttribute('readonly');
-        nameInput.style.backgroundColor = "#FAFAFA"; // Blanc
-        nameInput.style.cursor = "text";
         document.getElementById('profileHelp').style.display = "none";
     }
 
     document.getElementById('profileModal').classList.add('active');
 
-    // On ferme le menu user s'il est ouvert pour faire propre
     const userMenu = document.getElementById("userMenu");
     if(userMenu) userMenu.classList.remove("active");
 }
 
-// --- GESTION TÂCHES (AJOUT / EDIT) ---
 const modalElement = document.getElementById('taskModal');
 const headerTitle = document.getElementById('modalHeaderTitle');
 const inputId = document.getElementById('modalTaskId');
@@ -97,4 +94,33 @@ function openDeleteUserModal(username) {
     // On affiche le nom de la personne qu'on va supprimer pour être sûr
     document.getElementById('deleteUserTargetDisplay').innerText = username;
     document.getElementById('deleteUserModal').classList.add('active');
+}
+
+const themeToggleBtn = document.getElementById('themeToggle');
+const iconMoon = document.getElementById('icon-moon');
+const iconSun = document.getElementById('icon-sun');
+
+// Vérifier la préférence au chargement
+const currentTheme = localStorage.getItem('theme');
+if (currentTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    iconMoon.style.display = 'none';
+    iconSun.style.display = 'block';
+}
+
+function toggleTheme() {
+    document.body.classList.toggle('dark-mode');
+
+    let theme = 'light';
+
+    if (document.body.classList.contains('dark-mode')) {
+        theme = 'dark';
+        iconMoon.style.display = 'none';
+        iconSun.style.display = 'block';
+    } else {
+        iconMoon.style.display = 'block';
+        iconSun.style.display = 'none';
+    }
+
+    localStorage.setItem('theme', theme);
 }
