@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../conf/data.php';
+require __DIR__ . '/../conf/data.php';
 
 $error = '';
 
@@ -38,11 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             --shadow-soft: rgba(74, 144, 226, 0.2);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -56,183 +52,80 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             overflow: hidden;
         }
 
-        /* Décoration d'arrière-plan avec des cercles */
-        body::before,
-        body::after {
-            content: '';
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--light-blue) 0%, transparent 70%);
-            opacity: 0.4;
+        /* Décoration d'arrière-plan */
+        body::before, body::after {
+            content: ''; position: absolute; border-radius: 50%;
+            background: radial-gradient(circle, var(--light-blue) 0%, transparent 70%); opacity: 0.4;
         }
-
-        body::before {
-            width: 400px;
-            height: 400px;
-            top: -150px;
-            right: -100px;
-        }
-
-        body::after {
-            width: 350px;
-            height: 350px;
-            bottom: -100px;
-            left: -80px;
-        }
+        body::before { width: 400px; height: 400px; top: -150px; right: -100px; }
+        body::after { width: 350px; height: 350px; bottom: -100px; left: -80px; }
 
         .login-container {
-            position: relative;
-            z-index: 1;
-            background: white;
-            padding: 3rem 2.5rem;
-            border-radius: 24px;
-            box-shadow: 0 20px 60px var(--shadow-soft);
-            width: 100%;
-            max-width: 420px;
-            backdrop-filter: blur(10px);
+            position: relative; z-index: 1; background: white; padding: 3rem 2.5rem;
+            border-radius: 24px; box-shadow: 0 20px 60px var(--shadow-soft);
+            width: 100%; max-width: 420px; backdrop-filter: blur(10px);
         }
 
-        .logo-section {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
+        .logo-section { text-align: center; margin-bottom: 2rem; }
         .logo-circle {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--soft-blue) 100%);
-            border-radius: 50%;
-            margin: 0 auto 1.5rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 8px 24px var(--shadow-soft);
-            animation: float 3s ease-in-out infinite;
+            width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary-blue) 0%, var(--soft-blue) 100%);
+            border-radius: 50%; margin: 0 auto 1.5rem; display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 8px 24px var(--shadow-soft); animation: float 3s ease-in-out infinite;
         }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        .logo-icon { width: 40px; height: 40px; filter: brightness(0) invert(1); }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            filter: brightness(0) invert(1);
-        }
-
-        h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .subtitle {
-            color: var(--text-light);
-            font-size: 0.95rem;
-            margin-bottom: 2rem;
-        }
+        h1 { font-size: 1.8rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.5rem; }
+        .subtitle { color: var(--text-light); font-size: 0.95rem; margin-bottom: 2rem; }
 
         .error-message {
-            background: linear-gradient(135deg, #FFE5E5 0%, #FFD0D0 100%);
-            color: #D32F2F;
-            padding: 1rem;
-            border-radius: 12px;
-            margin-bottom: 1.5rem;
-            font-size: 0.9rem;
-            border-left: 4px solid #D32F2F;
-            animation: shake 0.3s ease-in-out;
+            background: linear-gradient(135deg, #FFE5E5 0%, #FFD0D0 100%); color: #D32F2F;
+            padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; font-size: 0.9rem;
+            border-left: 4px solid #D32F2F; animation: shake 0.3s ease-in-out;
         }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; color: var(--text-dark); font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; }
 
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            display: block;
-            color: var(--text-dark);
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
+        .input-wrapper { position: relative; }
 
         input {
             width: 100%;
-            padding: 1rem 1rem 1rem 3rem;
-            border: 2px solid #F0F0F0;
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            outline: none;
-            background: #FAFAFA;
+            padding: 1rem 3rem 1rem 3rem; /* Espace pour les icônes */
+            border: 2px solid #F0F0F0; border-radius: 12px; font-size: 1rem;
+            transition: all 0.3s ease; outline: none; background: #FAFAFA;
+        }
+        input:focus { border-color: var(--primary-blue); background: white; box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.15); }
+
+        /* Style commun pour toutes les icônes (User, Lock, Eye) */
+        .input-icon, .toggle-password {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            color: var(--text-light); display: flex; align-items: center;
+            transition: color 0.3s ease;
         }
 
-        input:focus {
-            border-color: var(--primary-blue);
-            background: white;
-            box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.15);
-        }
+        .input-icon { left: 1rem; pointer-events: none; } /* Icônes de gauche non cliquables */
+        .toggle-password { right: 1rem; cursor: pointer; } /* Oeil cliquable */
 
-        .input-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.2rem;
-            color: var(--text-light);
-        }
+        /* Changement de couleur au focus du champ (optionnel, nécessite JS plus complexe,
+           ici on met juste le hover sur l'oeil) */
+        .toggle-password:hover { color: var(--primary-blue); }
+
+        /* Taille standard des SVG */
+        .input-icon svg, .toggle-password svg { width: 20px; height: 20px; }
 
         button {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--soft-blue) 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px var(--shadow-soft);
-            margin-top: 0.5rem;
+            width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--primary-blue) 0%, var(--soft-blue) 100%);
+            color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600;
+            cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px var(--shadow-soft); margin-top: 0.5rem;
         }
+        button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px var(--shadow-soft); }
+        button:active { transform: translateY(0); }
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px var(--shadow-soft);
-        }
+        .footer-text { text-align: center; color: var(--text-light); font-size: 0.85rem; margin-top: 2rem; }
 
-        button:active {
-            transform: translateY(0);
-        }
-
-        .footer-text {
-            text-align: center;
-            color: var(--text-light);
-            font-size: 0.85rem;
-            margin-top: 2rem;
-        }
-
-        @media (max-width: 480px) {
-            .login-container {
-                padding: 2rem 1.5rem;
-            }
-
-            h1 {
-                font-size: 1.5rem;
-            }
-        }
+        @media (max-width: 480px) { .login-container { padding: 2rem 1.5rem; } h1 { font-size: 1.5rem; } }
     </style>
 </head>
 <body>
@@ -249,16 +142,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <?php if($error): ?>
-        <div class="error-message">
-            ⚠️ <?= htmlspecialchars($error) ?>
-        </div>
+        <div class="error-message">⚠️ <?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
 
     <form method="POST">
         <div class="form-group">
             <label for="username">Identifiant</label>
             <div class="input-wrapper">
-                <span class="input-icon">👤</span>
+                <span class="input-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </span>
                 <input type="text" id="username" name="username" placeholder="Votre identifiant" required autofocus>
             </div>
         </div>
@@ -266,8 +161,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="form-group">
             <label for="password">Mot de passe</label>
             <div class="input-wrapper">
-                <span class="input-icon">🔒</span>
+                <span class="input-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                </span>
+
                 <input type="password" id="password" name="password" placeholder="••••••••" required>
+
+                <span class="toggle-password" onclick="togglePassword()">
+                    <svg id="icon-show" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                </span>
             </div>
         </div>
 
@@ -276,5 +183,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <p class="footer-text">© Nathan Fraysse</p>
 </div>
+
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const iconContainer = document.querySelector('.toggle-password');
+
+        const svgShow = `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>`;
+
+        const svgHide = `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+            </svg>`;
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            iconContainer.innerHTML = svgHide;
+        } else {
+            passwordInput.type = 'password';
+            iconContainer.innerHTML = svgShow;
+        }
+    }
+</script>
 </body>
 </html>
