@@ -116,7 +116,7 @@ foreach ($my_tasks as $t) $cols[$t['status']][] = $t;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="img/logo_64.png">
-    <link rel="stylesheet" href="style/dashboard.css">
+    <link rel="stylesheet" href="style/dashboard.css?v=wrapfix">
     <title>Dashboard</title>
     <style>
         .icon-btn svg, .column-title svg { width: 18px; height: 18px; stroke-width: 2; }
@@ -239,7 +239,7 @@ foreach ($my_tasks as $t) $cols[$t['status']][] = $t;
             <div class="modal-form-group"><label>Titre</label><input type="text" name="title" id="modalTitle" required></div>
             <div class="modal-form-group"><label>Priorité</label><select name="priority" id="modalPriority"><option value="low">🟢 Basse</option><option value="medium">🟠 Moyenne</option><option value="high">🔴 Haute</option></select></div>
             <div class="modal-form-group"><label>Description</label><textarea name="desc" id="modalDesc"></textarea></div>
-            <div class="modal-form-group"><label>Date limite</label><input type="date" name="date" id="modalDate"></div>
+            <div class="modal-form-group"><label>Date limite</label><input type="date" name="date" id="modalDate" min="<?= date('Y-m-d') ?>"></div>
             <button type="submit" name="save_task" class="btn-save">Enregistrer</button>
         </form>
     </div>
@@ -328,7 +328,7 @@ foreach ($my_tasks as $t) $cols[$t['status']][] = $t;
                     <button type="submit" name="create_user" class="btn-create" style="padding:0.5rem 1rem; font-size:0.8rem;">Créer</button>
                 </form>
             </div>
-            <div style="max-height:400px; overflow-y:auto;">
+            <div style="max-height:400px; overflow-y:auto; margin-top:20px;">
                 <table style="width:100%; border-collapse:collapse;">
                     <?php foreach($users as $u): ?>
                         <tr style="border-bottom:1px solid #eee;">
@@ -384,11 +384,24 @@ function render_card($t, $status) {
         <?php if(!empty($t['desc'])): ?><div class="card-desc"><?= nl2br(htmlspecialchars($t['desc'])) ?></div><?php endif; ?>
         <div class="card-footer">
             <span class="date-badge"><?= $t['date'] ? '📅 '.date('d/m/Y', strtotime($t['date'])) : '📅 --' ?></span>
-            <form method="POST" style="display:inline;">
-                <input type="hidden" name="task_id" value="<?= $t['id'] ?>"><input type="hidden" name="action_type" value="move">
-                <?php if($status === 'todo'): ?><input type="hidden" name="new_status" value="inprogress"><button class="move-btn">Go &rarr;</button>
-                <?php elseif($status === 'inprogress'): ?><input type="hidden" name="new_status" value="done"><button class="move-btn">Fini &rarr;</button>
-                <?php elseif($status === 'done'): ?><input type="hidden" name="new_status" value="inprogress"><button class="move-btn">Rouvrir</button><?php endif; ?>
+
+            <form method="POST" style="display:inline; display:flex; gap:5px;">
+                <input type="hidden" name="task_id" value="<?= $t['id'] ?>">
+
+                <?php if($status === 'todo'): ?>
+                    <input type="hidden" name="action_type" value="move">
+                    <input type="hidden" name="new_status" value="inprogress">
+                    <button class="move-btn">Go &rarr;</button>
+
+                <?php elseif($status === 'inprogress'): ?>
+                    <button class="move-btn" name="action_type" value="move" onclick="this.form.new_status.value='todo'" style="background:#95a5a6;">&larr;</button>
+                    <input type="hidden" name="new_status" value=""> <button class="move-btn" name="action_type" value="move" onclick="this.form.new_status.value='done'">Fini &rarr;</button>
+
+                <?php elseif($status === 'done'): ?>
+                    <input type="hidden" name="action_type" value="move">
+                    <input type="hidden" name="new_status" value="inprogress">
+                    <button class="move-btn">Rouvrir</button>
+                <?php endif; ?>
             </form>
         </div>
     </div>
