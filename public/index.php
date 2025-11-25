@@ -81,16 +81,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         body::before { width: 400px; height: 400px; top: -150px; right: -100px; }
         body::after { width: 350px; height: 350px; bottom: -100px; left: -80px; }
 
-        /* BOUTON THEME SWITCH (Nouveau) */
         .theme-switch {
-            position: absolute; top: 20px; right: 20px; z-index: 10;
-            background: none; border: none; cursor: pointer;
-            color: var(--icon-color); transition: color 0.3s ease, transform 0.2s ease;
-            padding: 10px; border-radius: 50%;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 10;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px var(--shadow-soft);
+            cursor: pointer;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            padding: 0;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .theme-switch:hover { color: var(--primary-blue); transform: scale(1.1); background: rgba(255,255,255,0.1); }
-        .theme-switch svg { width: 28px; height: 28px; }
-
+        .theme-switch:hover { color: var(--primary-blue); transform: scale(1.1); }
+        .theme-switch svg { width: 24px; height: 24px; }
         .login-container {
             position: relative; z-index: 1;
             background: var(--card-bg);

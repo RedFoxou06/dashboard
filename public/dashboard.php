@@ -119,17 +119,12 @@ foreach ($my_tasks as $t) $cols[$t['status']][] = $t;
     <link rel="stylesheet" href="style/dashboard.css">
     <title>Dashboard</title>
     <style>
-        /* Ajustements SVG globaux */
         .icon-btn svg, .column-title svg { width: 18px; height: 18px; stroke-width: 2; }
         .icon-btn { padding: 6px; display: inline-flex; align-items: center; justify-content: center; }
         .user-dropdown .dropdown-item svg { width: 16px; height: 16px; margin-right: 8px; color: #666; }
         .admin-badge svg { width: 14px; height: 14px; color: #FFD700; fill: #FFD700; margin-left: 5px; }
-
-        /* Style spécifique pour les titres de modales avec SVG */
         .modal-header-custom { display: flex; align-items: center; gap: 10px; }
         .modal-header-custom svg { width: 24px; height: 24px; }
-
-        /* Correction alignement bouton admin */
         .btn-admin { display: flex; align-items: center; gap: 6px; }
     </style>
 </head>
@@ -153,16 +148,6 @@ foreach ($my_tasks as $t) $cols[$t['status']][] = $t;
     </div>
 
     <div class="user-section">
-
-        <button class="icon-btn" id="themeToggle" onclick="toggleTheme()" title="Changer de thème" style="margin-right:10px; border-radius:50%; width:35px; height:35px;">
-            <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-            </svg>
-            <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display:none;">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-        </button>
-
         <?php if($is_admin): ?>
             <button class="btn-admin" onclick="openAdminPanel()">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width:18px; height:18px;">
@@ -228,6 +213,15 @@ foreach ($my_tasks as $t) $cols[$t['status']][] = $t;
         <?php foreach($cols['done'] as $t): render_card($t, 'done'); endforeach; ?>
     </div>
 </div>
+
+<button class="floating-theme-btn" id="themeToggle" onclick="toggleTheme()" title="Changer de thème">
+    <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+    </svg>
+    <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display:none;">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+    </svg>
+</button>
 
 <div class="modal-overlay" id="taskModal">
     <div class="modal-content">
