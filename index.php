@@ -24,17 +24,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="img/logo_64.png">
     <title>Connexion - Task Manager</title>
     <style>
         :root {
-            --primary-pink: #FF6B9D;
-            --light-pink: #FFE5EF;
-            --soft-pink: #FFB3D0;
-            --bg-gradient-start: #FFF5F8;
+            --primary-blue: #4A90E2;
+            --light-blue: #E3F2FD;
+            --soft-blue: #64B5F6;
+            --bg-gradient-start: #E8F4F8;
             --bg-gradient-end: #FFFFFF;
             --text-dark: #2D2D2D;
             --text-light: #6B6B6B;
-            --shadow-soft: rgba(255, 107, 157, 0.15);
+            --shadow-soft: rgba(74, 144, 226, 0.2);
         }
 
         * {
@@ -61,8 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             content: '';
             position: absolute;
             border-radius: 50%;
-            background: radial-gradient(circle, var(--light-pink) 0%, transparent 70%);
-            opacity: 0.3;
+            background: radial-gradient(circle, var(--light-blue) 0%, transparent 70%);
+            opacity: 0.4;
         }
 
         body::before {
@@ -99,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .logo-circle {
             width: 80px;
             height: 80px;
-            background: linear-gradient(135deg, var(--primary-pink) 0%, var(--soft-pink) 100%);
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--soft-blue) 100%);
             border-radius: 50%;
             margin: 0 auto 1.5rem;
             display: flex;
@@ -178,9 +179,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         input:focus {
-            border-color: var(--primary-pink);
+            border-color: var(--primary-blue);
             background: white;
-            box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.1);
+            box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.15);
         }
 
         .input-icon {
@@ -195,7 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         button {
             width: 100%;
             padding: 1rem;
-            background: linear-gradient(135deg, var(--primary-pink) 0%, var(--soft-pink) 100%);
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--soft-blue) 100%);
             color: white;
             border: none;
             border-radius: 12px;
