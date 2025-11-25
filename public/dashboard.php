@@ -119,11 +119,18 @@ foreach ($my_tasks as $t) $cols[$t['status']][] = $t;
     <link rel="stylesheet" href="style/dashboard.css">
     <title>Dashboard</title>
     <style>
-        /* Petits ajustements SVG */
+        /* Ajustements SVG globaux */
         .icon-btn svg, .column-title svg { width: 18px; height: 18px; stroke-width: 2; }
         .icon-btn { padding: 6px; display: inline-flex; align-items: center; justify-content: center; }
         .user-dropdown .dropdown-item svg { width: 16px; height: 16px; margin-right: 8px; color: #666; }
         .admin-badge svg { width: 14px; height: 14px; color: #FFD700; fill: #FFD700; margin-left: 5px; }
+
+        /* Style spécifique pour les titres de modales avec SVG */
+        .modal-header-custom { display: flex; align-items: center; gap: 10px; }
+        .modal-header-custom svg { width: 24px; height: 24px; }
+
+        /* Correction alignement bouton admin */
+        .btn-admin { display: flex; align-items: center; gap: 6px; }
     </style>
 </head>
 <body>
@@ -147,7 +154,12 @@ foreach ($my_tasks as $t) $cols[$t['status']][] = $t;
 
     <div class="user-section">
         <?php if($is_admin): ?>
-            <button class="btn-admin" onclick="openAdminPanel()">👑 Admin Panel</button>
+            <button class="btn-admin" onclick="openAdminPanel()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width:18px; height:18px;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                Admin Panel
+            </button>
         <?php endif; ?>
         <div class="user-info"><div class="user-name"><?= htmlspecialchars($current_user_name) ?></div><div class="user-badge"><?= $is_admin ? 'Administrateur' : 'Utilisateur' ?></div></div>
         <div class="user-avatar-container">
@@ -209,7 +221,15 @@ foreach ($my_tasks as $t) $cols[$t['status']][] = $t;
 
 <div class="modal-overlay" id="taskModal">
     <div class="modal-content">
-        <div class="modal-header"><h2 class="modal-title" id="modalHeaderTitle">Tâche</h2><button class="modal-close" onclick="closeModal('taskModal')">×</button></div>
+        <div class="modal-header">
+            <h2 class="modal-title modal-header-custom">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color:var(--primary-blue)">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                <span id="modalHeaderTitle">Tâche</span>
+            </h2>
+            <button class="modal-close" onclick="closeModal('taskModal')">×</button>
+        </div>
         <form method="POST">
             <input type="hidden" name="task_id" id="modalTaskId">
             <div class="modal-form-group"><label>Titre</label><input type="text" name="title" id="modalTitle" required></div>
@@ -223,7 +243,15 @@ foreach ($my_tasks as $t) $cols[$t['status']][] = $t;
 
 <div class="modal-overlay" id="profileModal">
     <div class="modal-content">
-        <div class="modal-header"><h2 class="modal-title">👤 Modifier le profil</h2><button class="modal-close" onclick="closeModal('profileModal')">×</button></div>
+        <div class="modal-header">
+            <h2 class="modal-title modal-header-custom">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color:var(--primary-blue)">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                Modifier le profil
+            </h2>
+            <button class="modal-close" onclick="closeModal('profileModal')">×</button>
+        </div>
         <form method="POST">
             <input type="hidden" name="update_profile" value="1">
             <input type="hidden" name="target_username" id="profileTargetUser">
@@ -236,7 +264,15 @@ foreach ($my_tasks as $t) $cols[$t['status']][] = $t;
 
 <div class="modal-overlay" id="deleteModal">
     <div class="modal-content">
-        <div class="modal-header"><h2 class="modal-title" style="color:var(--danger-color)">⚠️ Suppression Tâche</h2><button class="modal-close" onclick="closeModal('deleteModal')">×</button></div>
+        <div class="modal-header">
+            <h2 class="modal-title modal-header-custom" style="color:var(--danger-color)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                Suppression
+            </h2>
+            <button class="modal-close" onclick="closeModal('deleteModal')">×</button>
+        </div>
         <p style="text-align:center; margin-bottom:20px;">Supprimer cette tâche ?</p>
         <form method="POST" class="btn-grid">
             <input type="hidden" name="task_id" id="deleteTaskId"><input type="hidden" name="action_type" value="delete">
@@ -248,7 +284,15 @@ foreach ($my_tasks as $t) $cols[$t['status']][] = $t;
 
 <div class="modal-overlay" id="deleteUserModal">
     <div class="modal-content">
-        <div class="modal-header"><h2 class="modal-title" style="color:var(--danger-color)">⚠️ Suppression Utilisateur</h2><button class="modal-close" onclick="closeModal('deleteUserModal')">×</button></div>
+        <div class="modal-header">
+            <h2 class="modal-title modal-header-custom" style="color:var(--danger-color)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7a4 4 0 11-8 0 4 4 0 018 0zM9 14a6 6 0 00-6 6v1h12v-1a6 6 0 00-6-6zM21 12h-6" />
+                </svg>
+                Suppression User
+            </h2>
+            <button class="modal-close" onclick="closeModal('deleteUserModal')">×</button>
+        </div>
         <p style="text-align:center; margin-bottom:10px;">Voulez-vous vraiment supprimer <strong id="deleteUserTargetDisplay"></strong> ?</p>
         <p style="text-align:center; margin-bottom:20px; font-size:0.9rem; color:#666;">Toutes ses tâches seront également supprimées.</p>
         <form method="POST" class="btn-grid">
@@ -263,7 +307,15 @@ foreach ($my_tasks as $t) $cols[$t['status']][] = $t;
 <?php if($is_admin): ?>
     <div class="modal-overlay" id="adminPanelModal">
         <div class="modal-content" style="max-width:700px;">
-            <div class="modal-header"><h2 class="modal-title">👑 Gestion Utilisateurs</h2><button class="modal-close" onclick="closeModal('adminPanelModal')">×</button></div>
+            <div class="modal-header">
+                <h2 class="modal-title modal-header-custom">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color:var(--primary-blue)">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    Gestion Utilisateurs
+                </h2>
+                <button class="modal-close" onclick="closeModal('adminPanelModal')">×</button>
+            </div>
             <div style="background:#f9f9f9; padding:15px; border-radius:12px; margin-bottom:20px;">
                 <h4 style="margin-bottom:10px;">Créer un nouvel utilisateur</h4>
                 <form method="POST" style="display:flex; gap:10px;">
