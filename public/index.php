@@ -81,16 +81,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         body::before { width: 400px; height: 400px; top: -150px; right: -100px; }
         body::after { width: 350px; height: 350px; bottom: -100px; left: -80px; }
 
+        /* BOUTON THEME SWITCH (Centré en bas) */
         .theme-switch {
             position: fixed;
             bottom: 30px;
-            right: 30px;
-            z-index: 10;
+            left: 50%; /* On place le bord gauche au milieu de l'écran */
+            transform: translateX(-50%); /* On recule de la moitié du bouton pour le centrer pile */
+            z-index: 100;
+
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             box-shadow: 0 4px 15px var(--shadow-soft);
             cursor: pointer;
-            color: var(--text-light);
+            color: var(--icon-color);
             transition: all 0.3s ease;
             padding: 0;
             border-radius: 50%;
@@ -100,8 +103,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             align-items: center;
             justify-content: center;
         }
-        .theme-switch:hover { color: var(--primary-blue); transform: scale(1.1); }
+
+        .theme-switch:hover {
+            color: var(--primary-blue);
+            /* IMPORTANT : On garde le translateX(-50%) sinon il repart à droite au survol ! */
+            transform: translateX(-50%) scale(1.1) translateY(-3px);
+            box-shadow: 0 8px 25px var(--shadow-soft);
+        }
         .theme-switch svg { width: 24px; height: 24px; }
+
+        @media (max-width: 768px) {
+            .floating-theme-btn {
+                width: 45px;
+                height: 45px;
+                bottom: 20px;
+                /* Pas besoin de changer left/transform, ça reste centré */
+            }
+        }
+
         .login-container {
             position: relative; z-index: 1;
             background: var(--card-bg);
