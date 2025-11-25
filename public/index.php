@@ -27,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="icon" type="image/png" href="img/logo_64.png">
     <title>Connexion - Dashboard</title>
     <style>
+        /* --- VARIABLES --- */
         :root {
             --primary-blue: #4A90E2;
             --light-blue: #E3F2FD;
@@ -36,6 +37,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             --text-dark: #2D2D2D;
             --text-light: #6B6B6B;
             --shadow-soft: rgba(74, 144, 226, 0.2);
+            --card-bg: #FFFFFF;
+            --input-bg: #FAFAFA;
+            --border-color: #F0F0F0;
+            --icon-color: #6B6B6B;
+        }
+
+        /* --- DARK MODE VARIABLES --- */
+        body.dark-mode {
+            --bg-gradient-start: #0f172a;
+            --bg-gradient-end: #1e293b;
+            --text-dark: #f1f5f9;
+            --text-light: #94a3b8;
+            --card-bg: #1e293b;
+            --input-bg: #0f172a;
+            --border-color: #334155;
+            --shadow-soft: rgba(0, 0, 0, 0.5);
+            --light-blue: #334155;
+            --icon-color: #cbd5e1;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -50,20 +69,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             padding: 20px;
             position: relative;
             overflow: hidden;
+            transition: background 0.3s ease;
         }
 
         /* Décoration d'arrière-plan */
         body::before, body::after {
             content: ''; position: absolute; border-radius: 50%;
             background: radial-gradient(circle, var(--light-blue) 0%, transparent 70%); opacity: 0.4;
+            transition: background 0.3s ease;
         }
         body::before { width: 400px; height: 400px; top: -150px; right: -100px; }
         body::after { width: 350px; height: 350px; bottom: -100px; left: -80px; }
 
+        /* BOUTON THEME SWITCH (Nouveau) */
+        .theme-switch {
+            position: absolute; top: 20px; right: 20px; z-index: 10;
+            background: none; border: none; cursor: pointer;
+            color: var(--icon-color); transition: color 0.3s ease, transform 0.2s ease;
+            padding: 10px; border-radius: 50%;
+        }
+        .theme-switch:hover { color: var(--primary-blue); transform: scale(1.1); background: rgba(255,255,255,0.1); }
+        .theme-switch svg { width: 28px; height: 28px; }
+
         .login-container {
-            position: relative; z-index: 1; background: white; padding: 3rem 2.5rem;
+            position: relative; z-index: 1;
+            background: var(--card-bg);
+            padding: 3rem 2.5rem;
             border-radius: 24px; box-shadow: 0 20px 60px var(--shadow-soft);
             width: 100%; max-width: 420px; backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .logo-section { text-align: center; margin-bottom: 2rem; }
@@ -75,60 +110,63 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
         .logo-icon { width: 40px; height: 40px; filter: brightness(0) invert(1); }
 
-        h1 { font-size: 1.8rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.5rem; }
-        .subtitle { color: var(--text-light); font-size: 0.95rem; margin-bottom: 2rem; }
+        h1 { font-size: 1.8rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.5rem; transition: color 0.3s; }
+        .subtitle { color: var(--text-light); font-size: 0.95rem; margin-bottom: 2rem; transition: color 0.3s; }
 
         .error-message {
             background: linear-gradient(135deg, #FFE5E5 0%, #FFD0D0 100%); color: #D32F2F;
             padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; font-size: 0.9rem;
             border-left: 4px solid #D32F2F; animation: shake 0.3s ease-in-out;
         }
+        body.dark-mode .error-message { background: #450a0a; color: #fca5a5; border-left-color: #ef4444; }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 
         .form-group { margin-bottom: 1.5rem; }
-        label { display: block; color: var(--text-dark); font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; }
+        label { display: block; color: var(--text-dark); font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; transition: color 0.3s; }
 
         .input-wrapper { position: relative; }
 
         input {
-            width: 100%;
-            padding: 1rem 3rem 1rem 3rem; /* Espace pour les icônes */
-            border: 2px solid #F0F0F0; border-radius: 12px; font-size: 1rem;
-            transition: all 0.3s ease; outline: none; background: #FAFAFA;
+            width: 100%; padding: 1rem 3rem 1rem 3rem;
+            border: 2px solid var(--border-color); border-radius: 12px; font-size: 1rem;
+            transition: all 0.3s ease; outline: none; background: var(--input-bg); color: var(--text-dark);
         }
-        input:focus { border-color: var(--primary-blue); background: white; box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.15); }
+        input:focus { border-color: var(--primary-blue); background: var(--card-bg); box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.15); }
 
-        /* Style commun pour toutes les icônes (User, Lock, Eye) */
         .input-icon, .toggle-password {
             position: absolute; top: 50%; transform: translateY(-50%);
             color: var(--text-light); display: flex; align-items: center;
             transition: color 0.3s ease;
         }
-
-        .input-icon { left: 1rem; pointer-events: none; } /* Icônes de gauche non cliquables */
-        .toggle-password { right: 1rem; cursor: pointer; } /* Oeil cliquable */
-
-        /* Changement de couleur au focus du champ (optionnel, nécessite JS plus complexe,
-           ici on met juste le hover sur l'oeil) */
+        .input-icon { left: 1rem; pointer-events: none; }
+        .toggle-password { right: 1rem; cursor: pointer; }
         .toggle-password:hover { color: var(--primary-blue); }
-
-        /* Taille standard des SVG */
         .input-icon svg, .toggle-password svg { width: 20px; height: 20px; }
 
-        button {
+        button.btn-submit {
             width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--primary-blue) 0%, var(--soft-blue) 100%);
             color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600;
             cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px var(--shadow-soft); margin-top: 0.5rem;
         }
-        button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px var(--shadow-soft); }
-        button:active { transform: translateY(0); }
+        button.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px var(--shadow-soft); }
+        button.btn-submit:active { transform: translateY(0); }
 
-        .footer-text { text-align: center; color: var(--text-light); font-size: 0.85rem; margin-top: 2rem; }
+        .footer-text { text-align: center; color: var(--text-light); font-size: 0.85rem; margin-top: 2rem; transition: color 0.3s; }
 
         @media (max-width: 480px) { .login-container { padding: 2rem 1.5rem; } h1 { font-size: 1.5rem; } }
     </style>
 </head>
 <body>
+
+<button class="theme-switch" onclick="toggleTheme()" title="Changer le thème">
+    <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+    </svg>
+    <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display:none;">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+    </svg>
+</button>
+
 <div class="login-container">
     <div class="logo-section">
         <div class="logo-circle">
@@ -178,13 +216,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
 
-        <button type="submit">Se connecter</button>
+        <button type="submit" class="btn-submit">Se connecter</button>
     </form>
 
     <p class="footer-text">© Nathan Fraysse</p>
 </div>
 
 <script>
+    // --- GESTION THEME SOMBRE ---
+    const iconMoon = document.getElementById('icon-moon');
+    const iconSun = document.getElementById('icon-sun');
+
+    // 1. Détection au chargement
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'dark' || (!currentTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.body.classList.add('dark-mode');
+        iconMoon.style.display = 'none';
+        iconSun.style.display = 'block';
+    }
+
+    // 2. Fonction Switch
+    function toggleTheme() {
+        document.body.classList.toggle('dark-mode');
+
+        let theme = 'light';
+        if (document.body.classList.contains('dark-mode')) {
+            theme = 'dark';
+            iconMoon.style.display = 'none';
+            iconSun.style.display = 'block';
+        } else {
+            iconMoon.style.display = 'block';
+            iconSun.style.display = 'none';
+        }
+        localStorage.setItem('theme', theme);
+    }
+
+    // --- GESTION MOT DE PASSE ---
     function togglePassword() {
         const passwordInput = document.getElementById('password');
         const iconContainer = document.querySelector('.toggle-password');
