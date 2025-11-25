@@ -126,7 +126,7 @@ foreach ($my_tasks as $t) $cols[$t['status']][] = $t;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="img/logo_64.png">
     <link rel="stylesheet" href="style/dashboard.css">
-    <title>Dashboard</title>
+    <title>Dashboard de <?= htmlspecialchars($view_user) ?></title>
 </head>
 <body>
 
