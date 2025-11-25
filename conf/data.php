@@ -1,26 +1,29 @@
 <?php
-// data.php
-define('USER_FILE', 'data/users.json');
-define('TASK_FILE', 'data/tasks.json');
+// conf/data.php
 
-// Fonction pour lire un JSON
+define('DATA_DIR', __DIR__ . '/data/');
+define('USER_FILE', DATA_DIR . 'users.json');
+define('TASK_FILE', DATA_DIR . 'tasks.json');
+
 function get_json($file) {
     if (!file_exists($file)) return [];
     $content = file_get_contents($file);
     return json_decode($content, true) ?? [];
 }
 
-// Fonction pour écrire dans un JSON
 function save_json($file, $data) {
     file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
 }
 
-// Initialisation des fichiers s'ils n'existent pas
-if (!file_exists('data')) { mkdir('data'); }
+if (!is_dir(DATA_DIR)) { mkdir(DATA_DIR, 0755, true); }
 
 if (!file_exists(USER_FILE)) {
     $default_users = [
-        ['username' => 'admin', 'password' => password_hash('Fire_pro_89!', PASSWORD_DEFAULT)]
+        [
+            'username' => 'admin',
+            'password' => password_hash('root', PASSWORD_DEFAULT),
+            'role' => 'admin'
+        ]
     ];
     save_json(USER_FILE, $default_users);
 }

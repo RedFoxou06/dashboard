@@ -87,3 +87,42 @@ input:focus, textarea:focus, select:focus { border-color: var(--primary-blue); b
 .btn-secondary:hover { background: #e0e0e0; }
 
 @media (max-width: 768px) { .header { flex-direction: column; gap: 1rem; text-align: center; } .header-left, .user-section { flex-direction: column; } .user-dropdown { right: 50%; transform: translateX(50%); top: 120px; } .action-bar { justify-content: center; } }
+
+.btn-admin {
+    background: #2D2D2D;
+    color: #FFD700;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+}
+.btn-admin:hover {
+    transform: translateY(-2px);
+}
+
+.admin-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#profileModal {
+    z-index: 1100;
+}
+
+.icon-btn.delete-user-btn {
+    background-color: #ffebee;
+    color: #c62828;
+}
+.icon-btn.delete-user-btn:hover {
+    background-color: #ffcdd2;
+}
+
+#deleteUserModal {
+    z-index: 1200;
+}
