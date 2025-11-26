@@ -20,7 +20,7 @@ if (!is_dir(DATA_DIR)) { mkdir(DATA_DIR, 0755, true); }
 if (!file_exists(USER_FILE)) {
     $default_users = [
         [
-            'username' => 'admin',
+            'username' => 'exemple',
             'password' => password_hash('root', PASSWORD_DEFAULT),
             'role' => 'admin'
         ]
