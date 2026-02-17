@@ -3,7 +3,7 @@
 Dashboard complet pour la gestion de tâches avec priorisation et interface d'administration sécurisée.
 
 ## 🛠️ Stack Technique
-- **Web :** PHP, HTML5, CSS, JavaScript.
+- **Web :** PHP, HTML, CSS, JavaScript.
 - **Mobile :** Ionic Framework / Angular (Export Android).
 - **Outils :** IntelliJ IDEA, Git.
 
