@@ -21,9 +21,7 @@ Accessible via n'importe quel navigateur. Optimisée pour une gestion complète 
 ## 📱 Version Mobile (Android)
 Application native compilée pour Android uniquement (tourne en local).
 - **Format :** APK.
-- **Installation :** Téléchargez l'APK ci-dessous et autorisez les "Sources inconnues" dans vos paramètres Android.
-
-📥 [**Télécharger l'APK**]
+- **Installation :** Téléchargez l'APK ci-dessus.
 
 ---
 
